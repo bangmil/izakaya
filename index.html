@@ -139,11 +139,6 @@
         <span>🥒</span> <span>오이 리필</span>
       </button>
 
-      <!-- One-Click HTML File Download Button (Saves directly as index.html for GitHub Pages / Netlify) -->
-      <button type="button" onclick="downloadKioskHtmlFile()" class="px-2.5 py-1.5 rounded-lg text-xs sm:text-sm font-extrabold bg-amber-400 hover:bg-amber-300 text-stone-950 shadow-md border border-amber-200 flex items-center gap-1 transition active:scale-95" title="PC/모바일에 index.html 파일로 바로 다운로드">
-        <span>💾</span> <span>파일 다운로드(index.html)</span>
-      </button>
-
       <!-- Original Menu Poster Button -->
       <button type="button" onclick="openPosterModal()" class="px-2.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-400/30 flex items-center gap-1 transition">
         <span>📜</span> <span class="hidden md:inline">메뉴판</span><span>포스터</span>
@@ -401,15 +396,6 @@
 
           <button
             type="button"
-            id="modalSoldOutToggleBtn"
-            onclick="toggleModalItemSoldOut()"
-            class="px-3 py-3 rounded-xl font-extrabold text-xs border border-rose-400/40 bg-rose-500/15 hover:bg-rose-500/30 text-rose-200 transition"
-          >
-            🚫 품절 표시
-          </button>
-
-          <button
-            type="button"
             id="modalConfirmAddBtn"
             onclick="confirmModalAddToCart()"
             class="flex-1 py-3 px-4 rounded-xl font-extrabold text-sm gold-badge shadow-lg hover:brightness-105 transition"
@@ -477,14 +463,11 @@
       <div class="p-4 border-b border-amber-500/20 flex items-center justify-between flex-wrap gap-2">
         <div>
           <h3 class="font-serif-kr font-bold text-lg flex items-center gap-2">
-            <span>👨‍🍳</span> <span>짝꿍이자카야 주방 주문서 & 영수증 내역</span>
+            <span>🧾</span> <span>실시간 주문 내역 & 진행 현황</span>
           </h3>
-          <p class="text-xs opacity-75">집주인(셰프)이 접수된 주문을 확인하고 조리/서빙 상태를 변경할 수 있습니다.</p>
+          <p class="text-xs opacity-75">접수된 테이블 주문 내역과 주방 조리·서빙 완료 상태를 실시간으로 확인할 수 있습니다.</p>
         </div>
         <div class="flex items-center gap-2">
-          <button type="button" onclick="clearOrderHistory()" class="px-2.5 py-1 rounded-lg text-xs border border-rose-400/30 text-rose-300 hover:bg-rose-500/20">
-            내역 초기화
-          </button>
           <button type="button" onclick="toggleKitchenModal()" class="px-3 py-1 rounded-lg text-xs font-bold bg-white/10 hover:bg-white/20">
             닫기 ✕
           </button>
@@ -1124,18 +1107,6 @@
                 <span class="absolute top-2.5 left-2.5 z-20 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold ${isSO ? 'bg-stone-800 text-stone-300 border border-stone-500/40' : 'gold-badge'} shadow">
                   ${item.badge}
                 </span>
-                <button
-                  type="button"
-                  onclick="event.stopPropagation(); toggleSoldOut('${item.id}')"
-                  class="absolute top-2.5 right-2.5 z-20 px-2.5 py-1 rounded-full text-[11px] font-extrabold shadow-lg transition active:scale-95 ${
-                    isSO
-                      ? 'bg-emerald-600 hover:bg-emerald-500 text-white border border-emerald-200'
-                      : 'bg-black/75 hover:bg-rose-600/90 text-rose-200 hover:text-white border border-rose-400/40'
-                  }"
-                  title="${isSO ? '눌러서 품절 해제 (판매 재개)' : '눌러서 품절로 변경'}"
-                >
-                  ${isSO ? '✅ 품절해제' : '🚫 품절'}
-                </button>
               </div>
               <div class="p-3.5">
                 <div class="flex items-start justify-between gap-2">
@@ -1154,17 +1125,6 @@
             <div class="px-3.5 pb-3.5 pt-2 border-t border-amber-500/15 flex items-center justify-between gap-2">
               <span class="text-xs sm:text-sm font-extrabold ${isSO ? 'text-rose-400' : 'text-amber-400'}">${isSO ? '🚫 품절 (SOLD OUT)' : formatPrice(item)}</span>
               <div class="flex items-center gap-1.5">
-                <button
-                  type="button"
-                  onclick="event.stopPropagation(); toggleSoldOut('${item.id}')"
-                  class="px-2.5 py-1.5 rounded-lg text-xs font-bold border transition active:scale-95 ${
-                    isSO
-                      ? 'bg-emerald-500/20 hover:bg-emerald-500/35 text-emerald-300 border-emerald-400/40'
-                      : 'bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 border-rose-400/30'
-                  }"
-                >
-                  ${isSO ? '품절해제' : '품절'}
-                </button>
                 ${isSO ? `
                   <span class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-stone-800 text-stone-400 border border-stone-600/40 cursor-not-allowed">
                     품절됨
@@ -1313,13 +1273,6 @@
               </div>
               <div class="flex items-center gap-1.5">
                 <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border ${statusClass}">${order.status}</span>
-                <button
-                  type="button"
-                  onclick="toggleOrderStatus(${oIdx})"
-                  class="px-2.5 py-1 rounded-lg text-xs font-bold bg-white/10 hover:bg-white/20 transition"
-                >
-                  ${isDone ? '조리중으로 변경' : '✅ 서빙완료 처리'}
-                </button>
               </div>
             </div>
             <ul class="space-y-0.5">${itemsHtml}</ul>
